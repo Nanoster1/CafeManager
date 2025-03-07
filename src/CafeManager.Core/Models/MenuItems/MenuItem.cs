@@ -4,12 +4,17 @@ using CafeManager.Core.Common.Interfaces;
 
 namespace CafeManager.Core.Models.MenuItems;
 
-public class MenuItem(
-    string name) : IEntity<long>
+public class MenuItem : IEntity<long>
 {
-    [Required]
-    public long Id { get; }
+    public MenuItem(string name)
+    {
+        Name = name;
+    }
 
-    [Required, MinLength(1)]
-    public string Name { get; set; } = name;
+    private MenuItem() { }
+
+    public long Id { get; private set; }
+
+    [MinLength(1)]
+    public required string Name { get; set; }
 }

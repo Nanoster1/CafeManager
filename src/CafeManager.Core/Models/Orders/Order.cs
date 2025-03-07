@@ -6,27 +6,35 @@ using CafeManager.Core.Models.Orders.Enums;
 
 namespace CafeManager.Core.Models.Orders;
 
-public class Order(
-    string customerName,
-    DateTimeOffset completedAt,
-    PaymentType paymentType,
-    OrderStatus status,
-    List<MenuItem>? menuItems = null) : IEntity<long>
+public class Order : IEntity<long>
 {
-    [Required]
-    public long Id { get; }
+    public Order(
+        string customerName,
+        DateTimeOffset completedAt,
+        PaymentType paymentType,
+        OrderStatus status,
+        List<MenuItem>? menuItems = null)
+    {
+        CustomerName = customerName;
+        CompletedAt = completedAt;
+        PaymentType = paymentType;
+        Status = status;
+        MenuItems = menuItems;
+    }
 
-    [Required, MinLength(1)]
-    public string CustomerName { get; set; } = customerName;
+    private Order() { }
 
-    [Required, MinLength(1)]
-    public DateTimeOffset CompletedAt { get; set; } = completedAt;
+    public long Id { get; private set; }
 
-    [Required]
-    public PaymentType PaymentType { get; set; } = paymentType;
+    [MinLength(1)]
+    public required string CustomerName { get; set; }
 
-    [Required]
-    public OrderStatus Status { get; set; } = status;
+    [MinLength(1)]
+    public required DateTimeOffset CompletedAt { get; set; }
 
-    public List<MenuItem>? MenuItems { get; set; } = menuItems;
+    public required PaymentType PaymentType { get; set; }
+
+    public required OrderStatus Status { get; set; }
+
+    public List<MenuItem>? MenuItems { get; set; }
 }

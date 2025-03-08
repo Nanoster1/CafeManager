@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CafeManager.Core\CafeManager.Core.csproj" />
+    <ProjectReference Include="..\CafeManager.Contracts\CafeManager.Contracts.csproj" />
+    <ProjectReference Include="..\CafeManager.Data\CafeManager.Data.csproj" />
+  </ItemGroup>
+
 </Project>

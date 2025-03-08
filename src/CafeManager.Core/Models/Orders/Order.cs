@@ -8,22 +8,6 @@ namespace CafeManager.Core.Models.Orders;
 
 public class Order : IEntity<long>
 {
-    public Order(
-        string customerName,
-        DateTimeOffset completedAt,
-        PaymentType paymentType,
-        OrderStatus status,
-        List<MenuItem>? menuItems = null)
-    {
-        CustomerName = customerName;
-        CompletedAt = completedAt;
-        PaymentType = paymentType;
-        Status = status;
-        MenuItems = menuItems;
-    }
-
-    private Order() { }
-
     public long Id { get; private set; }
 
     [MinLength(1)]
@@ -36,5 +20,5 @@ public class Order : IEntity<long>
 
     public required OrderStatus Status { get; set; }
 
-    public List<MenuItem>? MenuItems { get; set; }
+    public List<MenuItem> MenuItems { get; set; } = [];
 }

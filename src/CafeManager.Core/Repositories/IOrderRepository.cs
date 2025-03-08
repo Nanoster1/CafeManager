@@ -5,5 +5,5 @@ namespace CafeManager.Core.Repositories;
 
 public interface IOrderRepository : IBaseRepository<Order, long>
 {
-
+    IAsyncEnumerable<Order> GetAsync(GetOrderFilter filter);
 }

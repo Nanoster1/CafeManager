@@ -1,11 +1,11 @@
 namespace CafeManager.Core.Common.Interfaces;
 
-public interface IBaseRepository<T, TId>
-    where T : IEntity<TId>
+public interface IBaseRepository<TEntity, TId>
+    where TEntity : IEntity<TId>
     where TId : struct
 {
-    Task<T> GetAsync(TId id, CancellationToken cancellationToken = default);
-    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
-    Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetAsync(TId id, CancellationToken cancellationToken = default);
+    Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task DeleteAsync(TId id, CancellationToken cancellationToken = default);
 }

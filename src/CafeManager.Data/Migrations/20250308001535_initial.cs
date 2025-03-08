@@ -40,7 +40,6 @@ namespace CafeManager.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_orders", x => x.id);
-                    table.CheckConstraint("CK_orders_completed_at_MinLength", "LENGTH(completed_at) >= 1");
                     table.CheckConstraint("CK_orders_customer_name_MinLength", "LENGTH(customer_name) >= 1");
                     table.CheckConstraint("CK_orders_payment_type_Enum", "payment_type IN (0, 1)");
                     table.CheckConstraint("CK_orders_status_Enum", "status BETWEEN 0 AND 2");

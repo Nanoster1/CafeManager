@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CafeManager.Data.Migrations
 {
     [DbContext(typeof(CafeManagerContext))]
-    [Migration("20250307222038_initial")]
+    [Migration("20250308001535_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -83,8 +83,6 @@ namespace CafeManager.Data.Migrations
 
                     b.ToTable("orders", null, t =>
                         {
-                            t.HasCheckConstraint("CK_orders_completed_at_MinLength", "LENGTH(completed_at) >= 1");
-
                             t.HasCheckConstraint("CK_orders_customer_name_MinLength", "LENGTH(customer_name) >= 1");
 
                             t.HasCheckConstraint("CK_orders_payment_type_Enum", "payment_type IN (0, 1)");

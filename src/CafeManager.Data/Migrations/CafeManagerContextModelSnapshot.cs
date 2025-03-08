@@ -80,8 +80,6 @@ namespace CafeManager.Data.Migrations
 
                     b.ToTable("orders", null, t =>
                         {
-                            t.HasCheckConstraint("CK_orders_completed_at_MinLength", "LENGTH(completed_at) >= 1");
-
                             t.HasCheckConstraint("CK_orders_customer_name_MinLength", "LENGTH(customer_name) >= 1");
 
                             t.HasCheckConstraint("CK_orders_payment_type_Enum", "payment_type IN (0, 1)");

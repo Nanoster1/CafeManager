@@ -3,17 +3,26 @@ using CafeManager.Server.Constants;
 
 namespace CafeManager.Server.Middleware;
 
+/// <summary>
+/// Middleware для обработки исключений
+/// </summary>
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
     public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
         _logger = logger;
     }
 
+    /// <summary>
+    /// Middleware Invoke
+    /// </summary>
     public async Task Invoke(HttpContext context)
     {
         try

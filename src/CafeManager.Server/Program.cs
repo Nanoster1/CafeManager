@@ -2,6 +2,8 @@ using CafeManager.Core;
 using CafeManager.Data;
 using CafeManager.Server.Middleware;
 
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -18,7 +20,21 @@ var services = builder.Services;
     services.AddControllers();
 
     services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen();
+    services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Version = "v1",
+            Title = "Swagger Cafe Manager",
+            Description = "Swagger for Cafe Manager Server"
+        });
+
+        var xmlPath = $"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{builder.Environment.ApplicationName}.xml";
+        if (File.Exists(xmlPath))
+        {
+            options.IncludeXmlComments(xmlPath, true);
+        }
+    });
 }
 
 var app = builder.Build();

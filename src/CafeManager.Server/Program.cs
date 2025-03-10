@@ -4,6 +4,12 @@ using CafeManager.Server.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+{
+    configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+    configuration.AddEnvironmentVariables();
+}
+
 var services = builder.Services;
 {
     services.AddCoreModule();

@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -46,23 +46,23 @@ namespace CafeManager.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "menu_item_order",
+                name: "order_menu_items",
                 columns: table => new
                 {
-                    menu_items_id = table.Column<long>(type: "bigint", nullable: false),
-                    order_id = table.Column<long>(type: "bigint", nullable: false)
+                    order_id = table.Column<long>(type: "bigint", nullable: false),
+                    menu_item_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_menu_item_order", x => new { x.menu_items_id, x.order_id });
+                    table.PrimaryKey("pk_order_menu_items", x => new { x.menu_item_id, x.order_id });
                     table.ForeignKey(
-                        name: "fk_menu_item_order_menu_items_menu_items_id",
-                        column: x => x.menu_items_id,
+                        name: "fk_order_menu_items_menu_items_menu_item_id",
+                        column: x => x.menu_item_id,
                         principalTable: "menu_items",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_menu_item_order_orders_order_id",
+                        name: "fk_order_menu_items_orders_order_id",
                         column: x => x.order_id,
                         principalTable: "orders",
                         principalColumn: "id",
@@ -70,22 +70,22 @@ namespace CafeManager.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_menu_item_order_order_id",
-                table: "menu_item_order",
-                column: "order_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_menu_items_name",
                 table: "menu_items",
                 column: "name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_menu_items_order_id",
+                table: "order_menu_items",
+                column: "order_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "menu_item_order");
+                name: "order_menu_items");
 
             migrationBuilder.DropTable(
                 name: "menu_items");

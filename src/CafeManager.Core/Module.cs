@@ -2,8 +2,6 @@ using CafeManager.Core.Mapping;
 using CafeManager.Core.Services;
 using CafeManager.Core.Services.Interfaces;
 
-using Mapster;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CafeManager.Core;

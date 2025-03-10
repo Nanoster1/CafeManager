@@ -30,6 +30,7 @@ public class ExceptionMiddleware
     {
         response.StatusCode = e switch
         {
+            InvalidInputDataException => StatusCodes.Status400BadRequest,
             EntityNotFoundException => StatusCodes.Status404NotFound,
             EntityConflictException => StatusCodes.Status409Conflict,
             NotImplementedException => StatusCodes.Status501NotImplemented,

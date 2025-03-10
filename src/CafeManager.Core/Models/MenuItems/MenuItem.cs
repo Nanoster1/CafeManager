@@ -6,7 +6,7 @@ namespace CafeManager.Core.Models.MenuItems;
 
 public class MenuItem : IEntity<long>
 {
-    public long Id { get; private set; }
+    public required long Id { get; init; }
 
     [MinLength(1)]
     public required string Name { get; set; }

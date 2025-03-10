@@ -1,4 +1,5 @@
 using CafeManager.Core.Models.Orders;
+using CafeManager.Data.EFCore.RelationModels;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,6 +15,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.PaymentType).IsRequired();
 
         builder.HasMany(x => x.MenuItems)
-            .WithMany();
+            .WithMany()
+            .UsingEntity<OrderMenuItem>();
     }
 }

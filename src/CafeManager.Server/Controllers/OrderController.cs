@@ -40,4 +40,13 @@ public class OrderController : ControllerBase
         await _orderService.CompleteOrderAsync(id);
         return NoContent();
     }
+
+    [HttpPatch("{id}")]
+    [ProducesResponseType<OrderDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<OrderDto>> PartialUpdateAsync([FromRoute] long id, [FromBody] PartialUpdateOrderDto dto, CancellationToken cancellationToken)
+    {
+        var result = await _orderService.PartialUpdateAsync(id, dto, cancellationToken);
+        return Ok(result);
+    }
 }

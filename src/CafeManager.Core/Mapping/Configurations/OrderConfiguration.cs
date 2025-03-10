@@ -20,15 +20,18 @@ public static class OrderConfiguration
             .TwoWays();
 
         TypeAdapterConfig<Order, OrderDto>
-            .NewConfig()
-            .MapToConstructor(true);
+            .NewConfig();
 
         TypeAdapterConfig<AddOrderDto, Order>
             .NewConfig()
-            .MapToConstructor(true);
+            .Map(dest => dest.MenuItems, src => src.MenuItemIds);
 
         TypeAdapterConfig<GetOrderFilterDto, GetOrderFilter>
+            .NewConfig();
+
+        TypeAdapterConfig<PartialUpdateOrderDto, Order>
             .NewConfig()
-            .MapToConstructor(true);
+            .Map(dest => dest.MenuItems, src => src.MenuItemIds)
+            .IgnoreNullValues(true);
     }
 }

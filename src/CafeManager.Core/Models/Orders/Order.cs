@@ -8,12 +8,11 @@ namespace CafeManager.Core.Models.Orders;
 
 public class Order : IEntity<long>
 {
-    public long Id { get; private set; }
+    public required long Id { get; init; }
 
     [MinLength(1)]
     public required string CustomerName { get; set; }
 
-    [MinLength(1)]
     public required DateTimeOffset CompletedAt { get; set; }
 
     public required PaymentType PaymentType { get; set; }

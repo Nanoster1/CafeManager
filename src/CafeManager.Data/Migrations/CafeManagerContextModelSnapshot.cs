@@ -88,40 +88,40 @@ namespace CafeManager.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MenuItemOrder", b =>
+            modelBuilder.Entity("CafeManager.Data.EFCore.RelationModels.OrderMenuItem", b =>
                 {
-                    b.Property<long>("MenuItemsId")
+                    b.Property<long>("MenuItemId")
                         .HasColumnType("bigint")
-                        .HasColumnName("menu_items_id");
+                        .HasColumnName("menu_item_id");
 
                     b.Property<long>("OrderId")
                         .HasColumnType("bigint")
                         .HasColumnName("order_id");
 
-                    b.HasKey("MenuItemsId", "OrderId")
-                        .HasName("pk_menu_item_order");
+                    b.HasKey("MenuItemId", "OrderId")
+                        .HasName("pk_order_menu_items");
 
                     b.HasIndex("OrderId")
-                        .HasDatabaseName("ix_menu_item_order_order_id");
+                        .HasDatabaseName("ix_order_menu_items_order_id");
 
-                    b.ToTable("menu_item_order", (string)null);
+                    b.ToTable("order_menu_items", (string)null);
                 });
 
-            modelBuilder.Entity("MenuItemOrder", b =>
+            modelBuilder.Entity("CafeManager.Data.EFCore.RelationModels.OrderMenuItem", b =>
                 {
                     b.HasOne("CafeManager.Core.Models.MenuItems.MenuItem", null)
                         .WithMany()
-                        .HasForeignKey("MenuItemsId")
+                        .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_menu_item_order_menu_items_menu_items_id");
+                        .HasConstraintName("fk_order_menu_items_menu_items_menu_item_id");
 
                     b.HasOne("CafeManager.Core.Models.Orders.Order", null)
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_menu_item_order_orders_order_id");
+                        .HasConstraintName("fk_order_menu_items_orders_order_id");
                 });
 #pragma warning restore 612, 618
         }

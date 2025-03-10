@@ -11,15 +11,16 @@ public static class MenuItemConfiguration
     {
         TypeAdapterConfig<MenuItem, MenuItemDto>
             .NewConfig()
-            .MapToConstructor(true)
             .TwoWays();
 
         TypeAdapterConfig<AddMenuItemDto, MenuItem>
-            .NewConfig()
-            .MapToConstructor(true);
+            .NewConfig();
 
         TypeAdapterConfig<UpdateMenuItemDto, MenuItem>
+            .NewConfig();
+
+        TypeAdapterConfig<long, MenuItem>
             .NewConfig()
-            .MapToConstructor(true);
+            .MapWith(x => new MenuItem { Id = x, Name = string.Empty });
     }
 }

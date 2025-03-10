@@ -6,6 +6,7 @@ WORKDIR /source
 COPY CafeManager.sln ./
 COPY ./src ./src
 RUN dotnet restore
+RUN dotnet test
 
 WORKDIR /source/src/CafeManager.Server
 RUN dotnet publish -c release -o /app --no-restore

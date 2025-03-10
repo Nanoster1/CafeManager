@@ -62,6 +62,19 @@ public class OrderController : ControllerBase
     }
 
     /// <summary>
+    /// Отмена заказа
+    /// </summary>
+    /// <param name="id">Id заказа</param>
+    [HttpPost("{id}:cancel")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> CancelOrderAsync([FromRoute] long id)
+    {
+        await _orderService.CancelOrderAsync(id);
+        return NoContent();
+    }
+
+    /// <summary>
     /// Частичное обновление заказа
     /// </summary>
     /// <param name="id">Id заказа</param>

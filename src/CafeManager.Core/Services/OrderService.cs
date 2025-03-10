@@ -35,6 +35,21 @@ public class OrderService : IOrderService
         await _orderRepository.UpdateAsync(entity, cancellationToken);
     }
 
+    public async Task CancelOrderAsync(long orderId, CancellationToken cancellationToken = default)
+    {
+        var entity = await _orderRepository.GetAsync(orderId, cancellationToken) ??
+            throw new EntityNotFoundException($"Order with id {orderId} not found.");
+
+        if (entity.Status is not OrderStatus.InWork)
+        {
+            throw new EntityConflictException($"Can't complete Order(id: {orderId}) when order status is {entity.Status}.");
+        }
+
+        entity.Status = OrderStatus.Canceled;
+
+        await _orderRepository.UpdateAsync(entity, cancellationToken);
+    }
+
     public async Task<OrderDto> CreateAsync(AddOrderDto dto, CancellationToken cancellationToken = default)
     {
         if (dto.MenuItemIds.Any(id => id is 0))

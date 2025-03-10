@@ -48,8 +48,10 @@ public class ExceptionMiddleware
 
         var message = e switch
         {
+            InvalidInputDataException => e.Message,
             EntityNotFoundException => e.Message,
             EntityConflictException => e.Message,
+            NotImplementedException => "Not implemented",
             _ => "Something went wrong"
         };
 

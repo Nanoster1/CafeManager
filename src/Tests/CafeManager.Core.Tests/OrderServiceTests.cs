@@ -343,4 +343,82 @@ public class OrderServiceTests
 
         Assert.ThrowsAsync<EntityConflictException>(async () => await _orderService.CompleteOrderAsync(1, CancellationToken.None));
     }
+
+    [Test]
+    public async Task CancelOrder_WithValidData_ShouldCompleteOrder()
+    {
+        var orderId = 1;
+        var orderDate = DateTimeOffset.Now;
+        var customerName = "John Doe";
+        var orderPaymentType = PaymentType.Card;
+        var orderStatus = OrderStatus.InWork;
+        var orderMenuItems = new List<MenuItem>();
+
+        var orders = new Dictionary<long, Order>()
+        {
+            {
+                orderId,
+                new()
+                {
+                    Id = orderId,
+                    CustomerName = customerName,
+                    CompletedAt = orderDate,
+                    PaymentType = orderPaymentType,
+                    Status = orderStatus,
+                    MenuItems = orderMenuItems
+                }
+            }
+        };
+
+        _orderRepositoryMock.Setup(x => x.GetAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync<long, CancellationToken, IOrderRepository, Order>((id, _) => orders[id]);
+        _orderRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync<Order, CancellationToken, IOrderRepository, Order>((order, _) =>
+            {
+                orders[order.Id] = order;
+                return order;
+            });
+
+        await _orderService.CancelOrderAsync(orderId, CancellationToken.None);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(orders[orderId].Status, Is.EqualTo(OrderStatus.Canceled));
+            Assert.That(orders[orderId].CompletedAt, Is.EqualTo(orderDate));
+            Assert.That(orders[orderId].PaymentType, Is.EqualTo(orderPaymentType));
+            Assert.That(orders[orderId].CustomerName, Is.EqualTo(customerName));
+            Assert.That(orders[orderId].MenuItems, Is.EqualTo(orderMenuItems));
+        });
+    }
+
+    [Test]
+    public void CancelOrder_WithNotFound_ShouldThrowException()
+    {
+        _orderRepositoryMock.Setup(x => x.GetAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new EntityNotFoundException());
+
+        Assert.ThrowsAsync<EntityNotFoundException>(async () => await _orderService.CancelOrderAsync(1, CancellationToken.None));
+    }
+
+    [Test]
+    public void CancelOrder_WithConflict_ShouldThrowException()
+    {
+        var order = new Order
+        {
+            Id = 1,
+            CustomerName = "John Doe",
+            CompletedAt = DateTime.Now,
+            PaymentType = PaymentType.Card,
+            Status = OrderStatus.Completed,
+            MenuItems = []
+        };
+
+        _orderRepositoryMock.Setup(x => x.GetAsync(It.IsAny<long>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(order);
+
+        _orderRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new EntityConflictException());
+
+        Assert.ThrowsAsync<EntityConflictException>(async () => await _orderService.CancelOrderAsync(1, CancellationToken.None));
+    }
 }

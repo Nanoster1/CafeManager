@@ -1,7 +1,11 @@
 using CafeManager.Core.Repositories;
+using CafeManager.Core.Services.Interfaces;
 using CafeManager.Data.Constants;
 using CafeManager.Data.EFCore;
 using CafeManager.Data.EFCore.Repositories;
+using CafeManager.Data.EFCore.Services;
+
+using EntityFramework.Exceptions.PostgreSQL;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +24,10 @@ public static class Module
             options.UseNpgsql(databaseConnectionString);
             options.UseSnakeCaseNamingConvention();
             options.UseAllCheckConstraints();
+            options.UseExceptionProcessor();
         });
+
+        services.AddScoped<IMigrationService, MigrationService>();
 
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
